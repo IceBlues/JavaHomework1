@@ -45,6 +45,8 @@ public class SupplyHandler {
             for(SupplyGood G : goodList){
                 out.println(G.getId() + "," + G.getNumber());
             }
+
+            out.close();
         }
         catch (IOException e){
             System.out.println("File not found");

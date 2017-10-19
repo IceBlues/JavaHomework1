@@ -81,7 +81,7 @@ public class GoodsReturnHandler {
         Scanner in = new Scanner(System.in);
         String userInput = "";
 
-        userInput = in.nextLine();
+        userInput = in.nextLine().toUpperCase();
         if(userInput.equals("Y")){
             isContinue = true;
         }
@@ -95,12 +95,13 @@ public class GoodsReturnHandler {
 
         while(isContinue){
             System.out.println("Please input good-ID: ");
-            String goodId = in.nextLine();
+            String goodId = in.nextLine().toUpperCase();
 
             StockGood aGood = StockHandler.getGoodByID(goodId);
 
             if(aGood != null){
                 System.out.println("Name: " + aGood.getName());
+                System.out.println("Number: " + aGood.getNumber());
                 System.out.println("Price: " + aGood.getPrice());
                 System.out.println("Please input return number: ");
                 int returnNumber = 0;
