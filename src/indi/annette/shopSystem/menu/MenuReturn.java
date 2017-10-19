@@ -10,7 +10,10 @@ public class MenuReturn implements Menu{
 
         if(SystemAccount.isLogin()) {
             if(SystemAccount.getAuthority().equals("E")) {
-                GoodsReturnHandler.goodsReturn();
+                GoodsReturnHandler.EmployeeGoodsReturn();
+            }
+            else if(SystemAccount.getAuthority().equals("M")){
+                GoodsReturnHandler.ManagerGoodsReturn();
             }
         }
         else{

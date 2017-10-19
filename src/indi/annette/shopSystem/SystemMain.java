@@ -1,8 +1,10 @@
 package indi.annette.shopSystem;
 
 import indi.annette.shopSystem.menu.MenuHandler;
+import indi.annette.shopSystem.purchase.GoodsReturnHandler;
 import indi.annette.shopSystem.purchase.receipt.ReceiptHandler;
 import indi.annette.shopSystem.purchase.stock.StockHandler;
+import indi.annette.shopSystem.purchase.supplier.SupplyHandler;
 import indi.annette.shopSystem.user.ShopPersonHandler;
 import java.io.*;
 
@@ -13,6 +15,7 @@ public class SystemMain {
                     ShopPersonHandler.initialize(args[0]);
                     ReceiptHandler.initialize(args[1]);
                     StockHandler.initialize(args[2]);
+                    SupplyHandler.initialize(args[3]);
                     MenuHandler.initialize();
 
                     System.out.println("Welcome to Bug shop.");

@@ -34,7 +34,7 @@ public class StockHandler {
     public static StockGood getGoodByID(String id) {
         StockGood aStockGood = null;
         for(StockGood T : goodList){
-            if(T.getCode().equals(id)){
+            if(T.getId().equals(id)){
                 aStockGood = T;
                 break;
             }
@@ -46,7 +46,7 @@ public class StockHandler {
     public static void freshStockWithSoldGood(SoldGood good) {
         boolean isNotFound = true;
         for (int i = 0; i < goodList.size() && isNotFound; i++) {
-            if (good.getId().equals(goodList.get(i).getCode())) {
+            if (good.getId().equals(goodList.get(i).getId())) {
                 goodList.get(i).setNumber(goodList.get(i).getNumber() - good.getNumber());
                 isNotFound = false;
             }
@@ -57,7 +57,7 @@ public class StockHandler {
         boolean isNotFound = true;
         for (int i = 0; i < goodList.size() && isNotFound; i++) {
             StockGood G = goodList.get(i);
-            if (goodID.equals(G.getCode())) {
+            if (goodID.equals(G.getId())) {
                 goodList.get(i).setNumber(G.getNumber() + returnNumber);
                 isNotFound = false;
             }
@@ -74,7 +74,7 @@ public class StockHandler {
             PrintWriter out = new PrintWriter(stocks);
 
             for(StockGood good : goodList) {
-                out.print(good.getCode() + ",");
+                out.print(good.getId() + ",");
                 out.print(good.getName() + ",");
                 out.print(good.getNumber() + ",");
                 out.println(good.getPrice());
@@ -90,7 +90,7 @@ public class StockHandler {
     public static String checkStock(){
         String result = "";
         for(StockGood G : goodList){
-            result += "Code:\t\t\t" + G.getCode() + "\n";
+            result += "Code:\t\t\t" + G.getId() + "\n";
             result += "Name:\t\t\t" + G.getName() + "\n";
             result += "Number:\t\t" + G.getNumber() + "\n";
             result += "Price:\t\t\t" + G.getPrice() + "\n\n";

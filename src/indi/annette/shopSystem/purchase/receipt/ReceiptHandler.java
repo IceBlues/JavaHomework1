@@ -65,10 +65,6 @@ public class ReceiptHandler {
         receiptList.add(receipt);
     }
 
-    static void addReceipt(String receiptID, ArrayList<SoldGood> list){
-        receiptList.add(new Receipt(receiptID, list));
-    }
-
      /*Simple fresh receipt-file*/
     public static void freshReceiptFile(){
         try {
