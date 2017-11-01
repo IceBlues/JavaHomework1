@@ -1,8 +1,9 @@
 import java.io.*;
 import java.util.*;
+import java.util.Map.Entry;
 
 public class SupplyHandler {
-    private static ArrayList<SupplyGood> goodList = new ArrayList<SupplyGood>();
+    private static HashMap<String, ProductSupply> productList = new HashMap<String, ProductSupply>();
     private static File supplier;
 
     public static void initialize(String supplierFile){
@@ -12,7 +13,8 @@ public class SupplyHandler {
             Scanner in = new Scanner(supplier);
             while(in.hasNext()){
                 String subString[] = in.nextLine().split(",");
-                goodList.add(new SupplyGood(subString[0], Integer.parseInt(subString[1])));
+                //ID, number
+                productList.put(subString[0],new ProductSupply(subString[0], Integer.parseInt(subString[1])));
             }
         }
         catch (IOException e){
@@ -20,27 +22,23 @@ public class SupplyHandler {
         }
     }
 
-    public static void addSupplyGood(String id, int number){
-        boolean isContain = false;
+    public static void addSupplyProduct(String id, int number){
+        ProductSupply P = productList.get(id);
 
-        for(SupplyGood G : goodList){
-            if(id.equals(G.getId())){
-                G.setNumber(G.getNumber() + number);
-                isContain = true;
-                break;
-            }
+        if(P == null){
+            productList.put(id, new ProductSupply(id, number));
         }
-
-        if(!isContain){
-            goodList.add(new SupplyGood(id, number));
+        else{
+            P.setNumber(P.getNumber() + number);
         }
     }
 
     public static void freshSupplierFile(){
         try {
             PrintWriter out = new PrintWriter(supplier);
-            for(SupplyGood G : goodList){
-                out.println(G.getId() + "," + G.getNumber());
+            for(Entry<String, ProductSupply>entry : productList.entrySet()){
+                ProductSupply P = entry.getValue();
+                out.println(P.getId() + "," + P.getNumber());
             }
 
             out.close();

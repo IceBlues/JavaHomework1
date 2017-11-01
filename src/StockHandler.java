@@ -1,19 +1,22 @@
 import java.io.*;
 import java.util.*;
+import java.util.Map.Entry;
 
 public class StockHandler {
-    private static ArrayList<StockGood> goodList = new ArrayList<StockGood>();
+    private static HashMap<String, ProductStock> productList = new HashMap<String, ProductStock>();
     private static File stocks;
 
     public static void initialize(String stockFile) {
         stocks = new File("resources/" + stockFile + ".txt");
         try {
             Scanner in = new Scanner(stocks);
-            String[] goodsProperty;
+            String[] productsProperty;
             while (in.hasNext()) {
-                goodsProperty = in.nextLine().toUpperCase().split(",");
+                productsProperty = in.nextLine().toUpperCase().split(",");
                 try {
-                    goodList.add(new StockGood(goodsProperty[0], goodsProperty[1], Integer.parseInt(goodsProperty[2]), Double.parseDouble(goodsProperty[3])));
+                    //ID, name, number, price
+                    productList.put(productsProperty[0],new ProductStock(productsProperty[0], productsProperty[1], Integer.parseInt(productsProperty[2]),
+                            Double.parseDouble(productsProperty[3])));
                 }
                 catch (NumberFormatException e) {
                     System.out.println("The stock-file constant Error.");
@@ -27,40 +30,21 @@ public class StockHandler {
         }
     }
 
-    public static StockGood getGoodByID(String id) {
-        StockGood aStockGood = null;
-        for(StockGood T : goodList){
-            if(T.getId().equals(id)){
-                aStockGood = T;
-                break;
-            }
-        }
-
-        return aStockGood;
+    public static ProductStock getProductByID(String id) {
+        return productList.get(id);
     }
 
-    public static void freshStockWithSoldGood(SoldGood good) {
-        boolean isNotFound = true;
-        for (int i = 0; i < goodList.size() && isNotFound; i++) {
-            if (good.getId().equals(goodList.get(i).getId())) {
-                goodList.get(i).setNumber(goodList.get(i).getNumber() - good.getNumber());
-                isNotFound = false;
-            }
+    public static void freshStockWithSoldProduct(ProductSold product) {
+        ProductStock P = productList.get(product.getId());
+        if(P != null) {
+            P.setNumber(P.getNumber() - product.getNumber());
         }
     }
 
-    public static void freshStockByReturnGood(String goodID, int returnNumber){
-        boolean isNotFound = true;
-        for (int i = 0; i < goodList.size() && isNotFound; i++) {
-            StockGood G = goodList.get(i);
-            if (goodID.equals(G.getId())) {
-                goodList.get(i).setNumber(G.getNumber() + returnNumber);
-                isNotFound = false;
-            }
-        }
-
-        if(isNotFound){
-            System.out.println("The Good not found.");
+    public static void addStockByReturnProduct(String productID, int returnNumber){
+        ProductStock P = productList.get(productID);
+        if(P != null) {
+            P.setNumber(P.getNumber() + returnNumber);
         }
     }
 
@@ -68,12 +52,12 @@ public class StockHandler {
     public static void freshStockFile(){
         try {
             PrintWriter out = new PrintWriter(stocks);
-
-            for(StockGood good : goodList) {
-                out.print(good.getId() + ",");
-                out.print(good.getName() + ",");
-                out.print(good.getNumber() + ",");
-                out.println(good.getPrice());
+            for(Entry<String, ProductStock> entry : productList.entrySet()) {
+                ProductStock product = entry.getValue();
+                out.print(product.getId() + ",");
+                out.print(product.getName() + ",");
+                out.print(product.getNumber() + ",");
+                out.println(product.getPrice());
             }
 
             out.close();
@@ -83,15 +67,30 @@ public class StockHandler {
         }
     }
 
-    public static String checkStock(){
-        String result = "";
-        for(StockGood G : goodList){
-            result += "Code:\t\t\t" + G.getId() + "\n";
-            result += "Name:\t\t\t" + G.getName() + "\n";
-            result += "Number:\t\t" + G.getNumber() + "\n";
-            result += "Price:\t\t\t" + G.getPrice() + "\n\n";
+    public static void checkStock(){
+
+        String authorityNotEnoughMessage = "You have not enough authority";
+        StringBuilder result = new StringBuilder();
+
+        if(SystemAccount.getAuthority().equals("M")) {
+            for (Entry<String, ProductStock> entry : productList.entrySet()) {
+                ProductStock P = entry.getValue();
+                result.append("Code:\t\t\t");
+                result.append(P.getId());
+                result.append("\nName:\t\t\t");
+                result.append(P.getName());
+                result.append("\nNumber:\t\t\t");
+                result.append(P.getNumber());
+                result.append("\nPrice:\t\t\t");
+                result.append(P.getPrice());
+                result.append("\n\n");
+            }
+
+            System.out.println(result.toString());
+        }
+        else{
+            System.out.println(authorityNotEnoughMessage);
         }
 
-        return result;
     }
 }

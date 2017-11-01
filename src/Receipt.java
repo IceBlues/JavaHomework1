@@ -1,138 +1,137 @@
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Map.Entry;
 
 public class Receipt {
-    private ArrayList<SoldGood> receiptGoodList = new ArrayList<SoldGood>();
+    private HashMap<String, ProductSold> receiptProductList = new HashMap<String, ProductSold>();
     private String receiptID;
 
-    public Receipt(){
-
+    Receipt() {
+        listReceipt();
     }
 
     Receipt(String receiptID) {
         this.receiptID = receiptID;
     }
 
-    Receipt(String receiptID, ArrayList<SoldGood> receiptGoodList) {
-        this.receiptGoodList = receiptGoodList;
+    private Receipt(String receiptID, HashMap<String, ProductSold> receiptProductList) {
+        this.receiptProductList = receiptProductList;
         this.receiptID = receiptID;
     }
 
     public void listReceipt() {
-        if(SystemAccount.isLogin()) {
-            boolean isContinuePurchase = true;
-            Scanner in = new Scanner(System.in);
-            String userInput;
-            while (isContinuePurchase) {
-                addGood();
+        boolean isContinuePurchase = true;
+        Scanner in = new Scanner(System.in);
+        String userInput;
+        String selectErrorMessage = "Please Input Correct selection";
 
-                System.out.println("P)urchase  C)omplete Transaction");
+        while (isContinuePurchase) {
+            addProduct();
 
-                boolean isNotCorrectChoose = true;
-                while (isNotCorrectChoose) {
-                    userInput = in.nextLine().toUpperCase();
-                    switch (userInput) {
-                        case "P": {
-                            isContinuePurchase = true;
-                            isNotCorrectChoose = false;
-                            break;
-                        }
-                        case "C": {
-                            isContinuePurchase = false;
-                            isNotCorrectChoose = false;
-                            break;
-                        }
-                        default:
-                            isNotCorrectChoose = true;
-                            System.out.println("Please Input Correct selection.");
+            System.out.println("P)urchase  C)omplete Transaction");
+
+            boolean isNotCorrectChoose = true;
+            while (isNotCorrectChoose) {
+                userInput = in.nextLine().toUpperCase();
+                switch (userInput) {
+                    case "P": {
+                        isContinuePurchase = true;
+                        isNotCorrectChoose = false;
+                        break;
                     }
+                    case "C": {
+                        isContinuePurchase = false;
+                        isNotCorrectChoose = false;
+                        break;
+                    }
+                    default:
+                        isNotCorrectChoose = true;
+                        System.out.println(selectErrorMessage);
                 }
             }
-
-            if(!receiptGoodList.isEmpty()) {
-                complete();
-            }
-            else{
-                System.out.println("Look forward to your next purchase");
-            }
         }
-        else{
-            System.out.println("Please login first.");
+
+        if (!receiptProductList.isEmpty()) {
+            complete();
+        }
+        else {
+            System.out.println("Look forward to your next purchase");
         }
     }
 
-    void addGood(String id, int number){
-        receiptGoodList.add(new SoldGood(id,number));
+    public void addProduct(String id, int number) {
+        receiptProductList.put(id, new ProductSold(id, number));
     }
 
-    private void addGood(){
-            StockGood aGood = null;
-            String aGoodID = null;
-            Scanner in = new Scanner(System.in);
+    private void addProduct() {
+        ProductStock aProduct = null;
+        String aProductID = null;
+        Scanner in = new Scanner(System.in);
+        String stockNumberNotEnoughMessage = "The StockNumber is not enough";
+        String purchaseNotFoundMessage = "The purchase not found";
 
-            System.out.println("Please input good-ID :");
-            aGoodID = in.nextLine().toUpperCase();
-            aGood = StockHandler.getGoodByID(aGoodID);
+        System.out.println("Please input product-ID :");
+        aProductID = in.nextLine().toUpperCase();
+        aProduct = StockHandler.getProductByID(aProductID);
 
-            if(aGood != null) {
-                System.out.println("Current Stock: " + aGood.getNumber());
-                System.out.println("Price: " + aGood.getPrice());
-                try {
-                    int number = 0;
-                    boolean isNotFound = true;
-                    for(SoldGood S : receiptGoodList) {
-                        if (S.getId().equals(aGoodID)) {
-                            System.out.println("What's number you want to change now?");
-                            number = Integer.parseInt(in.nextLine());
-                            if (number > 0 && number <= aGood.getNumber()) {
-                                S.setNumber(number);
-                                System.out.println("Good number change succeed");
-                            }
-                            else{
-                                System.out.println("The StockNumber is not enough");
-                            }
-
-                            isNotFound = false;
-                            break;
-                        }
+        if (aProduct != null) {
+            System.out.println("Current Stock: " + aProduct.getNumber());
+            System.out.println("Price: " + aProduct.getPrice());
+            try {
+                int number = 0;
+                ProductSold S = receiptProductList.get(aProductID);
+                if (S == null) {
+                    System.out.println("How many you want to buy?");
+                    number = Integer.parseInt(in.nextLine());
+                    if (number > 0 && number <= aProduct.getNumber()) {
+                        receiptProductList.put(aProductID, new ProductSold(aProduct.getName(), aProductID, number, aProduct.getPrice()));
+                        System.out.println("Product add succeed");
                     }
-                    if(isNotFound){
-                        System.out.println("How many you want to buy?");
-                        number = Integer.parseInt(in.nextLine());
-                        if (number > 0 && number <= aGood.getNumber()) {
-                            receiptGoodList.add(new SoldGood(aGood.getName(), aGoodID, number, aGood.getPrice()));
-                            System.out.println("Good add succeed");
-                        }
-                        else {
-                            System.out.println("The StockNumber is not enough");
-                        }
+                    else {
+                        System.out.println(stockNumberNotEnoughMessage);
                     }
+                }
+                else {
+                    System.out.println("What's number you want to change now?");
+                    number = Integer.parseInt(in.nextLine());
+                    if (number > 0 && number <= aProduct.getNumber()) {
+                        S.setNumber(number);
+                        System.out.println("Product number change succeed");
+                    }
+                    else {
+                        System.out.println(stockNumberNotEnoughMessage);
+                    }
+                }
 
-                }
-                catch (Exception e) {
-                    System.out.println("Number-format Error, please input positive integer");
-                }
             }
-            else {
-                System.out.println("The purchase not found");
+            catch (Exception e) {
+                System.out.println("Number-format Error, please input positive integer");
             }
+        }
+        else {
+            System.out.println(purchaseNotFoundMessage);
+        }
     }
 
-    private void complete(){
+    private void complete() {
         double total = 0;
         String userInput = "";
         Scanner in = new Scanner(System.in);
+        String selectErrorMessage = "Please Input Correct selection";
+
         System.out.println("Transaction Details");
-        for(SoldGood G : receiptGoodList){
-            double aGoodTotal = G.getPrice()*G.getNumber();
-            System.out.println(G.getName() + "\t\t\t" + G.getNumber() + "\t\t" + aGoodTotal);
-            total += aGoodTotal;
+        for (Entry<String, ProductSold> entry : receiptProductList.entrySet()) {
+            ProductSold G = entry.getValue();
+            double aProductTotal = G.getPrice() * G.getNumber();
+            System.out.println(G.getName() + "\t\t\t" + G.getNumber() + "\t" + aProductTotal);
+            total += aProductTotal;
         }
         System.out.println("Subtotal\t\t\t" + total);
 
         double localTax = ReceiptHandler.getLocalTax();
-        System.out.println("Tax(" + localTax*100 + "%)" + "\t\t" + total*localTax);
-        total += total*localTax;
+        System.out.println("Tax(" + localTax * 100 + "%)" + "\t\t\t" + total * localTax);
+        total += total * localTax;
 
         System.out.println("Total" + "\t\t\t\t" + total);
         System.out.println();
@@ -156,42 +155,49 @@ public class Receipt {
                 }
                 default:
                     isNotCorrectChoose = true;
-                    System.out.println("Please Input Correct selection");
+                    System.out.println(selectErrorMessage);
             }
         }
 
-       if(userInput.equals("C")) {
-               //Add this receipt to receipt-list
-               ReceiptHandler.addReceipt(new Receipt(receiptID, receiptGoodList));
-               //update stock-list
-               for (SoldGood S : receiptGoodList) {
-                   StockHandler.freshStockWithSoldGood(S);
-               }
+        if (userInput.equals("C")) {
+            //Add this receipt to receipt-list
+            ReceiptHandler.addReceipt(new Receipt(receiptID, receiptProductList));
+            //update stock-list
+            for (Entry<String, ProductSold> entry : receiptProductList.entrySet()) {
+                ProductSold S = entry.getValue();
+                StockHandler.freshStockWithSoldProduct(S);
+            }
 
-               StockHandler.freshStockFile();
-               ReceiptHandler.freshReceiptFile();
-               System.out.println("Thank you for your purchase. Your receipt has been printed");
-       }
+            StockHandler.freshStockFile();
+            ReceiptHandler.freshReceiptFile();
+            System.out.println("Thank you for your purchase. Your receipt has been printed");
+        }
     }
 
-    public SoldGood getGoodByID(String goodId){
-        SoldGood result = null;
-
-        for(SoldGood S : receiptGoodList){
-            if(goodId.equals(S.getId())){
-                result = S;
-                break;
-            }
-        }
-
-        return result;
+    public ProductSold getProductByID(String productId) {
+        return receiptProductList.get(productId);
     }
 
     String getReceiptID() {
         return receiptID;
     }
 
-    ArrayList<SoldGood> getReceiptGoodList() {
-        return receiptGoodList;
+    public HashMap<String, ProductSold> getReceiptProductList() {
+        return receiptProductList;
+    }
+
+    public Date getDate() {
+        Date result = null;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String subString[] = receiptID.split(" ");
+        if (subString.length != 0) {
+            try {
+                result = format.parse(subString[0] + " " + subString[1]);
+            }
+            catch (ParseException p) {
+                System.out.println("date error");
+            }
+        }
+        return result;
     }
 }

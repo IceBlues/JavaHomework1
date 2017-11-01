@@ -14,7 +14,7 @@ public class SystemAccount {
                 System.out.println("Please input Work-ID :");
                 Scanner in = new Scanner(System.in);
                 String userInput = in.nextLine();
-                ShopPerson nowPerson = ShopPersonHandler.getShopPersonByID(userInput);
+                Employee nowPerson = EmployeeHandler.getEmployeeByID(userInput);
 
                 //Login Successful.
                 if (nowPerson != null) {

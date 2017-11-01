@@ -1,6 +1,7 @@
 import java.io.*;
 import java.text.*;
 import java.util.*;
+import java.util.Map.Entry;
 
 public class ReceiptHandler {
     private static ArrayList<Receipt> receiptList = new ArrayList<Receipt>();
@@ -11,29 +12,14 @@ public class ReceiptHandler {
             receipts = new File("resources/" + receiptFile + ".txt");
             Scanner in = new Scanner(receipts);
             String message = "";//Receipt message in file.
-            Date nowDate = new Date();
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            boolean shouldInitial = false;
 
             while (in.hasNext()) {
                 message = in.nextLine();
-                String receiptID[] = message.split(",");
-                String dateMessage[] = receiptID[0].split(" ");
-                try {
-                    if (!shouldInitial && GoodsReturnHandler.compareDateDays(nowDate, dateFormat.parse(dateMessage[0])) <= 30) {
-                        shouldInitial = true;
-                    }
-                    if (shouldInitial) {
-                        addReceipt(message);
-                    }
-                }
-                catch (ParseException p){
-                    System.out.println("Parse Error.");
-                }
+                addReceipt(message);
             }
 
             in.close();
-            freshReceiptFile(); //Delete 30days later message.
 
             if(!receiptList.isEmpty()) {
                 String receiptID[] = message.split(",");
@@ -57,13 +43,13 @@ public class ReceiptHandler {
         Receipt receipt = new Receipt(subString[0]);
 
         for(int i = 1;i < subString.length;i += 2){
-            receipt.addGood(subString[i], Integer.parseInt(subString[i+1]));
+            receipt.addProduct(subString[i], Integer.parseInt(subString[i+1]));
         }
 
         receiptList.add(receipt);
     }
 
-    static void addReceipt(Receipt receipt) {
+    public static void addReceipt(Receipt receipt) {
         receiptList.add(receipt);
     }
 
@@ -74,8 +60,8 @@ public class ReceiptHandler {
             for(Receipt R : receiptList){
                 String result = "";
                 result += R.getReceiptID();
-                ArrayList<SoldGood> list = R.getReceiptGoodList();
-                for(SoldGood S : list){
+                for(Entry<String, ProductSold> entry : R.getReceiptProductList().entrySet()){
+                    ProductSold S = entry.getValue();
                     result += "," + S.getId() + "," + S.getNumber();
                 }
                 printWriter.println(result);
@@ -100,7 +86,7 @@ public class ReceiptHandler {
         return result;
     }
 
-    static double getLocalTax(){
+    public static double getLocalTax(){
         double taxReturn = 0;
         Locale nowLocale = Locale.getDefault();
         if(nowLocale.getCountry().equals("IE")){
@@ -112,11 +98,11 @@ public class ReceiptHandler {
         return taxReturn;
     }
 
-    static int getSerialNumber() {
+    public static int getSerialNumber() {
         return serialNumber;
     }
 
-    static void nextSerialNumber() {
+    public static void nextSerialNumber() {
         serialNumber ++;
     }
 }
