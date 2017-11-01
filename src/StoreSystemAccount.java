@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class SystemAccount {
+public class StoreSystemAccount {
     private static boolean isLogin = false;
     private static String id;
     private static String name;

@@ -2,10 +2,10 @@ import java.util.*;
 
 public class ReturnProductsHandler {
     public static void ProductsReturn() {
-        if (SystemAccount.getAuthority().equals("E")) {
+        if (StoreSystemAccount.getAuthority().equals("E")) {
             EmployeeProductsReturn();
         }
-        else if (SystemAccount.getAuthority().equals("M")) {
+        else if (StoreSystemAccount.getAuthority().equals("M")) {
             String managerSelection = "";
             Scanner in = new Scanner(System.in);
             System.out.println("Do you want to return product to Supplier/Customer(S/C)");

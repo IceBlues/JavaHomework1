@@ -36,15 +36,15 @@ public class Menu {
     }
 
     private static void menuLogin() {
-        SystemAccount.login();
+        StoreSystemAccount.login();
     }
 
     private static void menuLogout() {
-        SystemAccount.logout();
+        StoreSystemAccount.logout();
     }
 
     private static void menuPurchase() {
-        if (SystemAccount.isLogin()) {
+        if (StoreSystemAccount.isLogin()) {
             new Receipt();
         }
         else {
@@ -53,7 +53,7 @@ public class Menu {
     }
 
     private static void menuCheck() {
-        if (SystemAccount.isLogin()) {
+        if (StoreSystemAccount.isLogin()) {
             StockHandler.checkStock();
         }
         else {
@@ -62,7 +62,7 @@ public class Menu {
     }
 
     private static void menuReturn() {
-        if (SystemAccount.isLogin()) {
+        if (StoreSystemAccount.isLogin()) {
             ReturnProductsHandler.ProductsReturn();
         }
         else {

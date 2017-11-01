@@ -1,6 +1,6 @@
 import java.io.*;
 
-public class SystemMain {
+public class StoreManagerSystem {
     public static void main(String[] args) {
         try {
             if (args.length == 4) {

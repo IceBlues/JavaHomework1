@@ -72,7 +72,7 @@ public class StockHandler {
         String authorityNotEnoughMessage = "You have not enough authority";
         StringBuilder result = new StringBuilder();
 
-        if(SystemAccount.getAuthority().equals("M")) {
+        if(StoreSystemAccount.getAuthority().equals("M")) {
             for (Entry<String, ProductStock> entry : productList.entrySet()) {
                 ProductStock P = entry.getValue();
                 result.append("Code:\t\t\t");
