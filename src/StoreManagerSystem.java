@@ -9,7 +9,7 @@ public class StoreManagerSystem {
                 StockHandler.initialize(args[2]);
                 SupplyHandler.initialize(args[3]);
 
-                System.out.println("Welcome to Bug shop.");
+                System.out.println("Welcome to Bug shop");
 
                 Menu.menuMain();
 
@@ -21,7 +21,7 @@ public class StoreManagerSystem {
             }
         }
         catch (IOException e){
-            System.out.println("DataFiles Error.");
+            System.out.println("DataFiles Error");
         }
     }
 }

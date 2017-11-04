@@ -33,7 +33,7 @@ public class ReceiptHandler {
             }
         }
         catch (IOException e){
-            System.out.println("receiptFile not found.");
+            System.out.println("receiptFile not found");
         }
     }
 
@@ -70,7 +70,7 @@ public class ReceiptHandler {
             printWriter.close();
         }
         catch (IOException e){
-            System.out.println("receiptFile not found.");
+            System.out.println("receiptFile not found");
         }
     }
 

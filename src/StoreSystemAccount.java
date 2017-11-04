@@ -44,7 +44,7 @@ public class StoreSystemAccount {
                 }
             }
             else{
-                System.out.println("You have been login.");
+                System.out.println("You have been login");
                 isContinueLogin = false;
             }
         }
@@ -57,7 +57,7 @@ public class StoreSystemAccount {
             System.out.println("Bye " + name);
         }
         else{
-            System.out.println("Please login first.");
+            System.out.println("Please login first");
         }
 
     }
