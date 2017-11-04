@@ -15,7 +15,7 @@ public class StockHandler {
                 productsProperty = in.nextLine().toUpperCase().split(",");
                 try {
                     //ID, name, number, price
-                    productList.put(productsProperty[0],new ProductStock(productsProperty[0], productsProperty[1], Integer.parseInt(productsProperty[2]),
+                    productList.put(productsProperty[0], new ProductStock(productsProperty[0], productsProperty[1], Integer.parseInt(productsProperty[2]),
                             Double.parseDouble(productsProperty[3])));
                 }
                 catch (NumberFormatException e) {
@@ -25,7 +25,7 @@ public class StockHandler {
 
             in.close();
         }
-        catch (IOException e){
+        catch (IOException e) {
             System.out.println("Stock-file not found.");
         }
     }
@@ -36,23 +36,23 @@ public class StockHandler {
 
     public static void freshStockWithSoldProduct(ProductSold product) {
         ProductStock P = productList.get(product.getId());
-        if(P != null) {
+        if (P != null) {
             P.setNumber(P.getNumber() - product.getNumber());
         }
     }
 
-    public static void addStockByReturnProduct(String productID, int returnNumber){
+    public static void addStockByReturnProduct(String productID, int returnNumber) {
         ProductStock P = productList.get(productID);
-        if(P != null) {
+        if (P != null) {
             P.setNumber(P.getNumber() + returnNumber);
         }
     }
 
 
-    public static void freshStockFile(){
+    public static void freshStockFile() {
         try {
             PrintWriter out = new PrintWriter(stocks);
-            for(Entry<String, ProductStock> entry : productList.entrySet()) {
+            for (Entry<String, ProductStock> entry : productList.entrySet()) {
                 ProductStock product = entry.getValue();
                 out.print(product.getId() + ",");
                 out.print(product.getName() + ",");
@@ -62,35 +62,50 @@ public class StockHandler {
 
             out.close();
         }
-        catch (IOException e){
+        catch (IOException e) {
             System.out.println("Stock-file not found.");
         }
     }
 
-    public static void checkStock(){
-
-        String authorityNotEnoughMessage = "You have not enough authority";
+    public static void checkStock() {
         StringBuilder result = new StringBuilder();
 
-        if(StoreSystemAccount.getAuthority().equals("M")) {
-            for (Entry<String, ProductStock> entry : productList.entrySet()) {
-                ProductStock P = entry.getValue();
-                result.append("Code:\t\t\t");
-                result.append(P.getId());
-                result.append("\nName:\t\t\t");
-                result.append(P.getName());
-                result.append("\nNumber:\t\t\t");
-                result.append(P.getNumber());
-                result.append("\nPrice:\t\t\t");
-                result.append(P.getPrice());
-                result.append("\n\n");
-            }
+        for (Entry<String, ProductStock> entry : productList.entrySet()) {
+            ProductStock P = entry.getValue();
+            result.append("Code:\t\t\t");
+            result.append(P.getId());
+            result.append("\n");
+        }
 
-            System.out.println(result.toString());
+        System.out.println(result.toString());
+    }
+
+
+    public static void checkStockProduct() {
+        String productNotFoundMessage = "Product was not found in stock";
+        System.out.println("Please input productID: ");
+        Scanner in = new Scanner(System.in);
+        String productID = in.nextLine().toUpperCase();
+        StringBuilder result = new StringBuilder();
+
+        ProductStock P = productList.get(productID);
+        if(P != null) {
+            result.append("Code:\t\t\t");
+            result.append(P.getId());
+            result.append("\nName:\t\t\t");
+            result.append(P.getName());
+            result.append("\nNumber:\t\t\t");
+            result.append(P.getNumber());
+            result.append("\nPrice:\t\t\t");
+            result.append(P.getPrice());
+            result.append("\n\n");
         }
         else{
-            System.out.println(authorityNotEnoughMessage);
+            result.append(productNotFoundMessage);
         }
 
+        System.out.println(result.toString());
     }
+
+
 }

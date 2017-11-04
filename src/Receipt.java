@@ -188,6 +188,21 @@ public class Receipt {
 
     public Date getDate() {
         Date result = null;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String subString[] = receiptID.split(" ");
+        if (subString.length != 0) {
+            try {
+                result = format.parse(subString[0]);
+            }
+            catch (ParseException p) {
+                System.out.println("date error");
+            }
+        }
+        return result;
+    }
+
+    public Date getFullDate(){
+        Date result = null;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String subString[] = receiptID.split(" ");
         if (subString.length != 0) {

@@ -74,6 +74,67 @@ public class ReceiptHandler {
         }
     }
 
+    public static void checkRangeProducts(){
+        HashMap<String, ProductSold> soldList = new HashMap<String, ProductSold>();
+        Scanner in = new Scanner(System.in);
+        String dateRangeErrorMessage = "Please input correct date range";
+        String dateFormatErrorMessage = "Error date format, it should like 1990-01-01";
+        StringBuilder result = new StringBuilder("");
+        String firstDate;
+        String secondDate;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String format = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
+
+        System.out.println("Please input start date like year(YYYY)-month(MM)-day(DD):");
+        firstDate = in.nextLine();
+        System.out.println("Please input end date like year(YYYY)-month(MM)-day(DD):");
+        secondDate = in.nextLine();
+        if(firstDate.matches(format) && secondDate.matches(format)){
+            try {
+                Date first = dateFormat.parse(firstDate);
+                Date second = dateFormat.parse(secondDate);
+                if(first.compareTo(second) <= 0){
+                    for(Receipt R : receiptList){
+                        if(R.getDate().compareTo(first) >= 0 && R.getDate().compareTo(second) <= 0){
+                            HashMap<String, ProductSold> productList = R.getReceiptProductList();
+                            for(Entry<String, ProductSold> entry : productList.entrySet()){
+                                ProductSold P = entry.getValue();
+                                if(soldList.containsKey(P.getId())){
+                                    ProductSold inSoldList = soldList.get(P.getId());
+                                    inSoldList.setNumber(inSoldList.getNumber() + P.getNumber());
+                                }
+                                else{
+                                    soldList.put(P.getId(), P);
+                                }
+                            }
+                        }
+                    }
+
+                    for(Entry<String, ProductSold> entry : soldList.entrySet()){
+                        result.append("ProductID: ");
+                        result.append(entry.getKey());
+                        result.append("\n");
+                        result.append("ProductSoldNumber: ");
+                        result.append(entry.getValue().getNumber());
+                        result.append("\n");
+                    }
+
+                    System.out.print(result.toString());
+                }
+                else{
+                    System.out.print(dateRangeErrorMessage);
+                }
+            }
+            catch (ParseException P){
+                System.out.print(dateFormatErrorMessage);
+            }
+        }
+        else{
+            System.out.print(dateFormatErrorMessage);
+        }
+
+    }
+
     public static Receipt getReceiptByID(String receiptID){
         Receipt result = null;
         for(Receipt R : receiptList){

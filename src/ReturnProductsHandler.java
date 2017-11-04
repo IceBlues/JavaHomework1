@@ -1,31 +1,7 @@
 import java.util.*;
 
 public class ReturnProductsHandler {
-    public static void ProductsReturn() {
-        if (StoreSystemAccount.getAuthority().equals("E")) {
-            EmployeeProductsReturn();
-        }
-        else if (StoreSystemAccount.getAuthority().equals("M")) {
-            String managerSelection = "";
-            Scanner in = new Scanner(System.in);
-            System.out.println("Do you want to return product to Supplier/Customer(S/C)");
-            managerSelection = in.nextLine().toUpperCase();
-
-            switch (managerSelection) {
-                case "S":
-                    ManagerProductsReturn();
-                    break;
-                case "C":
-                    EmployeeProductsReturn();
-                    break;
-                default:
-                    System.out.println("Select Error");
-                    break;
-            }
-        }
-    }
-
-    private static void EmployeeProductsReturn() {
+    public static void EmployeeProductsReturn() {
         System.out.println("Please input receipt ID(year-months-day hour:minutes:second number) :");
         Scanner in = new Scanner(System.in);
         String numberErrorMessage = "Please input correct number";
@@ -37,7 +13,7 @@ public class ReturnProductsHandler {
         Receipt receipt = ReceiptHandler.getReceiptByID(receiptID);
 
         if (receipt != null) {
-            if (compareDateDays(new Date(), receipt.getDate()) <= 30) {
+            if (compareDateDays(new Date(), receipt.getFullDate()) <= 30) {
                 boolean isContinue = true;
                 String continueSelect = "";
                 while (isContinue) {
@@ -98,7 +74,7 @@ public class ReturnProductsHandler {
         }
     }
 
-    private static void ManagerProductsReturn() {
+    public static void ManagerProductsReturn() {
         boolean isContinue = true;
         System.out.println("Welcome manager, Do you want to return products to supplier?(Y/N)");
         Scanner in = new Scanner(System.in);
