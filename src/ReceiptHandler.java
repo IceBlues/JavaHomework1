@@ -119,18 +119,18 @@ public class ReceiptHandler {
                         result.append("\n");
                     }
 
-                    System.out.print(result.toString());
+                    System.out.println(result.toString());
                 }
                 else{
-                    System.out.print(dateRangeErrorMessage);
+                    System.out.println(dateRangeErrorMessage);
                 }
             }
             catch (ParseException P){
-                System.out.print(dateFormatErrorMessage);
+                System.out.println(dateFormatErrorMessage);
             }
         }
         else{
-            System.out.print(dateFormatErrorMessage);
+            System.out.println(dateFormatErrorMessage);
         }
 
     }
