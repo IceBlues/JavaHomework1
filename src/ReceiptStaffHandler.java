@@ -3,15 +3,15 @@ import java.text.*;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class ReceiptHandler {
-    private static ArrayList<Receipt> receiptList = new ArrayList<Receipt>();
+public class ReceiptStaffHandler {
+    private static ArrayList<ReceiptStaff> receiptStaffList = new ArrayList<ReceiptStaff>();
     private static File receipts;
     private static int serialNumber = 0;
     public static void initialize(String receiptFile) {
         try {
             receipts = new File("resources/" + receiptFile + ".txt");
             Scanner in = new Scanner(receipts);
-            String message = "";//Receipt message in file.
+            String message = "";//ReceiptStaff message in file.
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
             while (in.hasNext()) {
@@ -21,7 +21,7 @@ public class ReceiptHandler {
 
             in.close();
 
-            if(!receiptList.isEmpty()) {
+            if(!receiptStaffList.isEmpty()) {
                 String receiptID[] = message.split(",");
                 String dateMessage[] = receiptID[0].split(" ");
                     if (dateFormat.format(new Date()).equals(dateMessage[0])) {
@@ -40,24 +40,24 @@ public class ReceiptHandler {
     /*add receipt from file*/
     private static void addReceipt(String message){
         String subString[] = message.split(",");
-        Receipt receipt = new Receipt(subString[0]);
+        ReceiptStaff receiptStaff = new ReceiptStaff(subString[0]);
 
         for(int i = 1;i < subString.length;i += 2){
-            receipt.addProduct(subString[i], Integer.parseInt(subString[i+1]));
+            receiptStaff.addProduct(subString[i], Integer.parseInt(subString[i+1]));
         }
 
-        receiptList.add(receipt);
+        receiptStaffList.add(receiptStaff);
     }
 
-    public static void addReceipt(Receipt receipt) {
-        receiptList.add(receipt);
+    public static void addReceipt(ReceiptStaff receiptStaff) {
+        receiptStaffList.add(receiptStaff);
     }
 
      /*Simple fresh receipt-file*/
     public static void freshReceiptFile(){
         try {
             PrintWriter printWriter = new PrintWriter(receipts);
-            for(Receipt R : receiptList){
+            for(ReceiptStaff R : receiptStaffList){
                 String result = "";
                 result += R.getReceiptID();
                 for(Entry<String, ProductSold> entry : R.getReceiptProductList().entrySet()){
@@ -75,7 +75,7 @@ public class ReceiptHandler {
     }
 
     public static void checkRangeProducts(){
-        HashMap<String, ProductSold> soldList = new HashMap<String, ProductSold>();
+        LinkedHashMap<String, ProductSold> soldList = new LinkedHashMap<String, ProductSold>();
         Scanner in = new Scanner(System.in);
         String dateRangeErrorMessage = "Please input correct date range";
         String dateFormatErrorMessage = "Error date format, it should like 1990-01-01";
@@ -94,9 +94,9 @@ public class ReceiptHandler {
                 Date first = dateFormat.parse(firstDate);
                 Date second = dateFormat.parse(secondDate);
                 if(first.compareTo(second) <= 0){
-                    for(Receipt R : receiptList){
+                    for(ReceiptStaff R : receiptStaffList){
                         if(R.getDate().compareTo(first) >= 0 && R.getDate().compareTo(second) <= 0){
-                            HashMap<String, ProductSold> productList = R.getReceiptProductList();
+                            LinkedHashMap<String, ProductSold> productList = R.getReceiptProductList();
                             for(Entry<String, ProductSold> entry : productList.entrySet()){
                                 ProductSold P = entry.getValue();
                                 if(soldList.containsKey(P.getId())){
@@ -135,9 +135,9 @@ public class ReceiptHandler {
 
     }
 
-    public static Receipt getReceiptByID(String receiptID){
-        Receipt result = null;
-        for(Receipt R : receiptList){
+    public static ReceiptStaff getReceiptByID(String receiptID){
+        ReceiptStaff result = null;
+        for(ReceiptStaff R : receiptStaffList){
             if(receiptID.equals(R.getReceiptID())){
                 result = R;
                 break;

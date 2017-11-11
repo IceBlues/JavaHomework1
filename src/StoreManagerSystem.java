@@ -5,7 +5,7 @@ public class StoreManagerSystem {
         try {
             if (args.length == 4) {
                 EmployeeHandler.initialize(args[0]);
-                ReceiptHandler.initialize(args[1]);
+                ReceiptStaffHandler.initialize(args[1]);
                 StockHandler.initialize(args[2]);
                 SupplyHandler.initialize(args[3]);
 
@@ -13,7 +13,7 @@ public class StoreManagerSystem {
 
                 Menu.menuMain();
 
-                ReceiptHandler.freshReceiptFile();
+                ReceiptStaffHandler.freshReceiptFile();
                 StockHandler.freshStockFile();
             }
             else {

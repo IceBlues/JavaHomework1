@@ -3,19 +3,19 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class Receipt {
-    private HashMap<String, ProductSold> receiptProductList = new HashMap<String, ProductSold>();
+public class ReceiptStaff {
+    private LinkedHashMap<String, ProductSold> receiptProductList = new LinkedHashMap<String, ProductSold>();
     private String receiptID;
 
-    Receipt() {
-        listReceipt();
+    ReceiptStaff() {
+
     }
 
-    Receipt(String receiptID) {
+    ReceiptStaff(String receiptID) {
         this.receiptID = receiptID;
     }
 
-    private Receipt(String receiptID, HashMap<String, ProductSold> receiptProductList) {
+    private ReceiptStaff(String receiptID, LinkedHashMap<String, ProductSold> receiptProductList) {
         this.receiptProductList = receiptProductList;
         this.receiptID = receiptID;
     }
@@ -76,6 +76,7 @@ public class Receipt {
         aProduct = StockHandler.getProductByID(aProductID);
 
         if (aProduct != null) {
+            System.out.println("Name: " + aProduct.getName());
             System.out.println("Current Stock: " + aProduct.getNumber());
             System.out.println("Price: " + aProduct.getPrice());
             try {
@@ -129,14 +130,14 @@ public class Receipt {
         }
         System.out.println("Subtotal\t\t\t" + total);
 
-        double localTax = ReceiptHandler.getLocalTax();
+        double localTax = ReceiptStaffHandler.getLocalTax();
         System.out.println("Tax(" + localTax * 100 + "%)" + "\t\t\t" + total * localTax);
         total += total * localTax;
 
         System.out.println("Total" + "\t\t\t\t" + total);
         System.out.println();
 
-        receiptID = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ").format(new Date()) + (ReceiptHandler.getSerialNumber());
+        receiptID = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ").format(new Date()) + (ReceiptStaffHandler.getSerialNumber());
 
         System.out.println(receiptID);
         System.out.println("C)ontinue  S)top");
@@ -146,7 +147,7 @@ public class Receipt {
             switch (userInput) {
                 case "C": {
                     isNotCorrectChoose = false;
-                    ReceiptHandler.nextSerialNumber();
+                    ReceiptStaffHandler.nextSerialNumber();
                     break;
                 }
                 case "S": {
@@ -161,7 +162,7 @@ public class Receipt {
 
         if (userInput.equals("C")) {
             //Add this receipt to receipt-list
-            ReceiptHandler.addReceipt(new Receipt(receiptID, receiptProductList));
+            ReceiptStaffHandler.addReceipt(new ReceiptStaff(receiptID, receiptProductList));
             //update stock-list
             for (Entry<String, ProductSold> entry : receiptProductList.entrySet()) {
                 ProductSold S = entry.getValue();
@@ -169,7 +170,7 @@ public class Receipt {
             }
 
             StockHandler.freshStockFile();
-            ReceiptHandler.freshReceiptFile();
+            ReceiptStaffHandler.freshReceiptFile();
             System.out.println("Thank you for your purchase. Your receipt has been printed");
         }
     }
@@ -182,7 +183,7 @@ public class Receipt {
         return receiptID;
     }
 
-    public HashMap<String, ProductSold> getReceiptProductList() {
+    public LinkedHashMap<String, ProductSold> getReceiptProductList() {
         return receiptProductList;
     }
 
@@ -201,7 +202,7 @@ public class Receipt {
         return result;
     }
 
-    public Date getFullDate(){
+    public Date getFullDate() {
         Date result = null;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String subString[] = receiptID.split(" ");

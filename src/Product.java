@@ -2,17 +2,15 @@ public abstract class Product {
     private String id;
     private String name;
     private int number;
-    private double price;
-
-    public Product(String id, String name, int number, double price){
-        this.id = id;
-        this.name = name;
-        this.number = number;
-        this.price = price;
-    }
 
     public Product(String id, int number){
         this.id = id;
+        this.number = number;
+    }
+
+    public Product(String id, String name, int number){
+        this.id = id;
+        this.name = name;
         this.number = number;
     }
 
@@ -26,10 +24,6 @@ public abstract class Product {
 
     public int getNumber() {
         return number;
-    }
-
-    public double getPrice() {
-        return price;
     }
 
     public void setNumber(int number) {

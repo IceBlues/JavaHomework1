@@ -2,24 +2,24 @@ import java.util.*;
 
 public class ReturnProductsHandler {
     public static void EmployeeProductsReturn() {
-        System.out.println("Please input receipt ID(year-months-day hour:minutes:second number) :");
+        System.out.println("Please input receiptStaff ID(year-months-day hour:minutes:second number) :");
         Scanner in = new Scanner(System.in);
         String numberErrorMessage = "Please input correct number";
-        String productNotSoldMessage = "The product was not sold in this receipt";
+        String productNotSoldMessage = "The product was not sold in this receiptStaff";
         String selectErrorMessage = "Select Error. Default choose Continue";
-        String receiptNotFound = "Receipt not found";
+        String receiptNotFound = "ReceiptStaff not found";
 
         String receiptID = in.nextLine();
-        Receipt receipt = ReceiptHandler.getReceiptByID(receiptID);
+        ReceiptStaff receiptStaff = ReceiptStaffHandler.getReceiptByID(receiptID);
 
-        if (receipt != null) {
-            if (compareDateDays(new Date(), receipt.getFullDate()) <= 30) {
+        if (receiptStaff != null) {
+            if (compareDateDays(new Date(), receiptStaff.getFullDate()) <= 30) {
                 boolean isContinue = true;
                 String continueSelect = "";
                 while (isContinue) {
                     System.out.println("Please input product-ID : ");
                     String productId = in.nextLine().toUpperCase();
-                    ProductSold soldProduct = receipt.getProductByID(productId);
+                    ProductSold soldProduct = receiptStaff.getProductByID(productId);
 
                     if (soldProduct != null) {
                         int soldNumber = soldProduct.getNumber();
@@ -62,11 +62,11 @@ public class ReturnProductsHandler {
                 }
 
                 StockHandler.freshStockFile();
-                ReceiptHandler.freshReceiptFile();
+                ReceiptStaffHandler.freshReceiptFile();
                 System.out.println("Return complete, have a product fun");
             }
             else {
-                System.out.println("Your receipt is more than 30 days");
+                System.out.println("Your receiptStaff is more than 30 days");
             }
         }
         else {
@@ -76,12 +76,12 @@ public class ReturnProductsHandler {
 
     public static void ManagerProductsReturn() {
         boolean isContinue = true;
-        System.out.println("Welcome manager, Do you want to return products to supplier?(Y/N)");
+        System.out.println("Welcome manager, Do you really want to return products to supplier?(Y/N)");
         Scanner in = new Scanner(System.in);
         String userInput = "";
         String selectErrorMessage = "Select Error";
         String numberErrorMessage = "Please input correct number";
-        String productNotFound = "Receipt not found";
+        String productNotFound = "ReceiptStaff not found";
 
         userInput = in.nextLine().toUpperCase();
         if (userInput.equals("Y")) {
@@ -95,57 +95,59 @@ public class ReturnProductsHandler {
             isContinue = false;
         }
 
-        while (isContinue) {
-            System.out.println("Please input product-ID: ");
-            String productId = in.nextLine().toUpperCase();
+        if(isContinue) {
+            while (isContinue) {
+                System.out.println("Please input product-ID: ");
+                String productId = in.nextLine().toUpperCase();
 
-            ProductStock aProduct = StockHandler.getProductByID(productId);
+                ProductStock aProduct = StockHandler.getProductByID(productId);
 
-            if (aProduct != null) {
-                System.out.println("Name: " + aProduct.getName());
-                System.out.println("Number: " + aProduct.getNumber());
-                System.out.println("Price: " + aProduct.getPrice());
-                System.out.println("Please input return number: ");
-                int returnNumber = 0;
+                if (aProduct != null) {
+                    System.out.println("Name: " + aProduct.getName());
+                    System.out.println("Number: " + aProduct.getNumber());
+                    System.out.println("Please input return number: ");
+                    int returnNumber = 0;
 
-                try {
-                    returnNumber = Integer.parseInt(in.nextLine());
-                    if (returnNumber > 0 && returnNumber <= aProduct.getNumber()) {
-                        aProduct.setNumber(aProduct.getNumber() - returnNumber);
-                        SupplyHandler.addSupplyProduct(productId, returnNumber);
+                    try {
+                        returnNumber = Integer.parseInt(in.nextLine());
+                        if (returnNumber > 0 && returnNumber <= aProduct.getNumber()) {
+                            ProductSupply returnProduct = new ProductSupply(productId, aProduct.getName(), returnNumber);
+                            StockHandler.returnProduct(returnProduct);
+                            SupplyHandler.addSupplyFromReturnProduct(returnProduct);
+                        }
+                        else {
+                            System.out.println(numberErrorMessage);
+                        }
                     }
-                    else {
+                    catch (Exception e) {
                         System.out.println(numberErrorMessage);
                     }
                 }
-                catch (Exception e) {
-                    System.out.println(numberErrorMessage);
-                }
-            }
-            else {
-                System.out.println(productNotFound);
-            }
-
-            boolean isSelect = false;
-            while (!isSelect) {
-                System.out.println("C)ontinue  S)top");
-                userInput = in.nextLine().toUpperCase();
-                if (userInput.equals("C")) {
-                    isContinue = true;
-                    isSelect = true;
-                }
-                else if (userInput.equals("S")) {
-                    isContinue = false;
-                    isSelect = true;
-                }
                 else {
-                    System.out.println(selectErrorMessage);
+                    System.out.println(productNotFound);
+                }
+
+                boolean isSelect = false;
+                while (!isSelect) {
+                    System.out.println("C)ontinue  S)top");
+                    userInput = in.nextLine().toUpperCase();
+                    if (userInput.equals("C")) {
+                        isContinue = true;
+                        isSelect = true;
+                    }
+                    else if (userInput.equals("S")) {
+                        isContinue = false;
+                        isSelect = true;
+                    }
+                    else {
+                        System.out.println(selectErrorMessage);
+                    }
                 }
             }
+            System.out.println("Return complete!");
+            StockHandler.freshStockFile();
+            SupplyHandler.freshSupplierFile();
         }
-
-        StockHandler.freshStockFile();
-        SupplyHandler.freshSupplierFile();
     }
 
     public static long compareDateDays(Date nowDate, Date receiptDate) {

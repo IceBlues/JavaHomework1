@@ -61,11 +61,14 @@ public class Menu {
             }
         }
         else {
-            System.out.println("C)heck  R)eturn    Log O)ut");
+            System.out.println("P)urchase  C)heck  R)eturn    Log O)ut");
             Scanner in = new Scanner(System.in);
 
             String userInput = in.nextLine().toUpperCase();
             switch (userInput) {
+                case "P":
+                    menuPurchase();
+                    break;
                 case "R":
                     menuReturn();
                     break;
@@ -87,7 +90,12 @@ public class Menu {
     }
 
     private static void menuPurchase() {
-            new Receipt();
+        if(StoreSystemAccount.getAuthority().equals("E")) {
+            new ReceiptStaff().listReceipt();
+        }
+        else if(StoreSystemAccount.getAuthority().equals("M")){
+            new ReceiptManager().listReceipt();
+        }
     }
 
     private static void menuCheck() {
@@ -107,7 +115,7 @@ public class Menu {
                     StockHandler.checkStockProduct();
                     break;
                 case "R":
-                    ReceiptHandler.checkRangeProducts();
+                    ReceiptStaffHandler.checkRangeProducts();
                     break;
                 case "E":
                     isContinue = false;

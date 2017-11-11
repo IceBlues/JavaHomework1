@@ -3,7 +3,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class StockHandler {
-    private static HashMap<String, ProductStock> productList = new HashMap<String, ProductStock>();
+    private static LinkedHashMap<String, ProductStock> productList = new LinkedHashMap<String, ProductStock>();
     private static File stocks;
 
     public static void initialize(String stockFile) {
@@ -12,10 +12,11 @@ public class StockHandler {
             Scanner in = new Scanner(stocks);
             String[] productsProperty;
             while (in.hasNext()) {
-                productsProperty = in.nextLine().toUpperCase().split(",");
+                productsProperty = in.nextLine().split(",");
                 try {
                     //ID, name, number, price
-                    productList.put(productsProperty[0], new ProductStock(productsProperty[0], productsProperty[1], Integer.parseInt(productsProperty[2]),
+                    productList.put(productsProperty[0].toUpperCase(), new ProductStock(productsProperty[0].toUpperCase(), productsProperty[1], Integer.parseInt
+                            (productsProperty[2]),
                             Double.parseDouble(productsProperty[3])));
                 }
                 catch (NumberFormatException e) {
@@ -30,6 +31,12 @@ public class StockHandler {
         }
     }
 
+    public static void returnProduct(ProductSupply returnProduct){
+        ProductStock product = productList.get(returnProduct.getId());
+
+        product.setNumber(product.getNumber() - returnProduct.getNumber());
+    }
+
     public static ProductStock getProductByID(String id) {
         return productList.get(id);
     }
@@ -38,6 +45,17 @@ public class StockHandler {
         ProductStock P = productList.get(product.getId());
         if (P != null) {
             P.setNumber(P.getNumber() - product.getNumber());
+        }
+    }
+
+    public static void addStockFromSupply(ProductSupply P){
+        ProductStock product = productList.get(P.getId());
+
+        if(product != null){
+            product.setNumber(product.getNumber() + P.getNumber());
+        }
+        else{
+            productList.put(P.getId(), new ProductStock(P.getId(), P.getName(), P.getNumber(), P.getPrice()));
         }
     }
 

@@ -3,7 +3,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class SupplyHandler {
-    private static HashMap<String, ProductSupply> productList = new HashMap<String, ProductSupply>();
+    private static LinkedHashMap<String, ProductSupply> productList = new LinkedHashMap<String, ProductSupply>();
     private static File supplier;
 
     public static void initialize(String supplierFile){
@@ -13,8 +13,8 @@ public class SupplyHandler {
             Scanner in = new Scanner(supplier);
             while(in.hasNext()){
                 String subString[] = in.nextLine().split(",");
-                //ID, number
-                productList.put(subString[0],new ProductSupply(subString[0], Integer.parseInt(subString[1])));
+                //ID, name, number, price
+                productList.put(subString[0],new ProductSupply(subString[0], subString[1], Integer.parseInt(subString[2]), Double.parseDouble(subString[3])));
             }
         }
         catch (IOException e){
@@ -22,15 +22,19 @@ public class SupplyHandler {
         }
     }
 
-    public static void addSupplyProduct(String id, int number){
-        ProductSupply P = productList.get(id);
+    public static void addSupplyFromReturnProduct(ProductSupply returnProduct){
+        ProductSupply product = productList.get(returnProduct.getId());
 
-        if(P == null){
-            productList.put(id, new ProductSupply(id, number));
-        }
-        else{
-            P.setNumber(P.getNumber() + number);
-        }
+        product.setNumber(product.getNumber() + returnProduct.getNumber());
+    }
+
+    public static void soldProduct(ProductSupply P){
+        ProductSupply soldProduct = productList.get(P.getId());
+        soldProduct.setNumber(soldProduct.getNumber() - P.getNumber());
+    }
+
+    public static ProductSupply getProductByID(String id){
+        return productList.get(id);
     }
 
     public static void freshSupplierFile(){
@@ -38,7 +42,7 @@ public class SupplyHandler {
             PrintWriter out = new PrintWriter(supplier);
             for(Entry<String, ProductSupply>entry : productList.entrySet()){
                 ProductSupply P = entry.getValue();
-                out.println(P.getId() + "," + P.getNumber());
+                out.println(P.getId() + "," + P.getName() + "," + P.getNumber() + "," + P.getPrice());
             }
 
             out.close();
