@@ -94,11 +94,15 @@ public class ReceiptStaff {
                     }
                 }
                 else {
-                    System.out.println("What's number you want to change now?");
+                    System.out.println("What's number you want to buy now?");
                     number = Integer.parseInt(in.nextLine());
                     if (number > 0 && number <= aProduct.getNumber()) {
                         S.setNumber(number);
                         System.out.println("Product number change succeed");
+                    }
+                    else if(number == 0){
+                        receiptProductList.remove(aProductID);
+                        System.out.println("You have remove this product");
                     }
                     else {
                         System.out.println(stockNumberNotEnoughMessage);

@@ -5,9 +5,9 @@ public class ReturnProductsHandler {
         System.out.println("Please input receiptStaff ID(year-months-day hour:minutes:second number) :");
         Scanner in = new Scanner(System.in);
         String numberErrorMessage = "Please input correct number";
-        String productNotSoldMessage = "The product was not sold in this receiptStaff";
+        String productNotSoldMessage = "The product was not sold in this receipt";
         String selectErrorMessage = "Select Error. Default choose Continue";
-        String receiptNotFound = "ReceiptStaff not found";
+        String receiptNotFound = "Receipt not found";
 
         String receiptID = in.nextLine();
         ReceiptStaff receiptStaff = ReceiptStaffHandler.getReceiptByID(receiptID);
@@ -66,7 +66,7 @@ public class ReturnProductsHandler {
                 System.out.println("Return complete, have a product fun");
             }
             else {
-                System.out.println("Your receiptStaff is more than 30 days");
+                System.out.println("Your receipt is more than 30 days");
             }
         }
         else {
@@ -81,7 +81,7 @@ public class ReturnProductsHandler {
         String userInput = "";
         String selectErrorMessage = "Select Error";
         String numberErrorMessage = "Please input correct number";
-        String productNotFound = "ReceiptStaff not found";
+        String productNotFound = "Receipt not found";
 
         userInput = in.nextLine().toUpperCase();
         if (userInput.equals("Y")) {

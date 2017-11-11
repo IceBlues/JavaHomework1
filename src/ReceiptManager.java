@@ -11,11 +11,10 @@ public class ReceiptManager {
         String productNotEnoughError = "The product not enough";
         Scanner in = new Scanner(System.in);
         String productID = "";
-        int buyNumber = 0;
 
         boolean isContinue = true;
         while(isContinue) {
-            System.out.println("Please input the productID you want to purchase: ");
+            System.out.println("Hello,manager. Please input the productID you want to purchase to your store: ");
             productID = in.nextLine().toUpperCase();
             ProductSupply aProduct = SupplyHandler.getProductByID(productID);
             if (aProduct != null) {
@@ -23,39 +22,74 @@ public class ReceiptManager {
                 productMessage += "Name: " + aProduct.getName() + "\nNumber: " + aProduct.getNumber() + "\nPrice: " + aProduct.getPrice() + "\n";
                 System.out.println(productMessage);
 
-                System.out.println("How many you want to buy?");
+                if (receiptProductList.get(productID) == null) {
+                    int buyNumber = 0;
+                    System.out.println("How many you want to buy?");
 
-                try {
-                    buyNumber = Integer.parseInt(in.nextLine());
-                }
-                catch (Exception E) {
-                    System.out.println("Error number");
-                }
+                    try {
+                        buyNumber = Integer.parseInt(in.nextLine());
+                    }
+                    catch (Exception E) {
+                        System.out.println("Error number");
+                    }
 
-                if (buyNumber <= aProduct.getNumber()) {
-                    ProductSupply purchaseProduct = new ProductSupply(productID, aProduct.getName(), buyNumber, aProduct.getPrice());
-                    receiptProductList.put(productID, purchaseProduct);
-                    System.out.println("P)urchase  C)omplete");
-                    String select = in.nextLine().toUpperCase();
-                    switch (select){
-                        case "P":
-                            isContinue = true;
-                            break;
-                        case "C":
-                            isContinue = false;
-                            break;
-                        default:
-                            System.out.println(selectErrorMessage);
-                            break;
+                    if (buyNumber > 0 && buyNumber <= aProduct.getNumber()) {
+                        ProductSupply purchaseProduct = new ProductSupply(productID, aProduct.getName(), buyNumber, aProduct.getPrice());
+                        receiptProductList.put(productID, purchaseProduct);
+                        System.out.println("Product add succeed");
+                    }
+                    else {
+                        System.out.println(productNotEnoughError);
                     }
                 }
-                else {
-                    System.out.println(productNotEnoughError);
+                else{
+                    int fixNumber = 0;
+                    System.out.println("What number you want to buy now?");
+
+                    try {
+                        fixNumber = Integer.parseInt(in.nextLine());
+                    }
+                    catch (Exception E) {
+                        System.out.println("Error number");
+                    }
+
+                    if(fixNumber > 0 && fixNumber <= aProduct.getNumber()) {
+                        receiptProductList.get(productID).setNumber(fixNumber);
+                        System.out.println("The product change succeed");
+                    }
+                    else if(fixNumber == 0){
+                        receiptProductList.remove(productID);
+                        System.out.println("You have remove this product");
+                    }
+                    else{
+                        System.out.println(productNotEnoughError);
+                    }
                 }
+
+                System.out.println("P)urchase  C)omplete");
             }
             else {
                 System.out.println(productNotFoundError);
             }
+
+            String select = in.nextLine().toUpperCase();
+            boolean isNotCorrectChoose = true;
+            while(isNotCorrectChoose) {
+                switch (select) {
+                    case "P":
+                        isContinue = true;
+                        isNotCorrectChoose = false;
+                        break;
+                    case "C":
+                        isContinue = false;
+                        isNotCorrectChoose = false;
+                        break;
+                    default:
+                        System.out.println(selectErrorMessage);
+                        break;
+                }
+            }
+
         }
 
         if (!receiptProductList.isEmpty()) {
