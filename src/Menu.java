@@ -31,7 +31,7 @@ public class Menu {
                 isContinue = false;
                 break;
             default:
-                System.out.print(selectErrorMessage);
+                System.out.println(selectErrorMessage);
                 break;
         }
         return isContinue;
