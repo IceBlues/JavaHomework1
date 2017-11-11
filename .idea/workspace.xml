@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f8ac0b8f-c538-4a32-a95d-b17c2d7e9f34" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ReceiptManager.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/JavaProject/Receipt.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/JavaProject/ReceiptHandler.class" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaProject/Employee.class" afterPath="$PROJECT_DIR$/out/production/JavaProject/Employee.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaProject/EmployeeHandler.class" afterPath="$PROJECT_DIR$/out/production/JavaProject/EmployeeHandler.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaProject/EmployeeManager.class" afterPath="$PROJECT_DIR$/out/production/JavaProject/EmployeeManager.class" />
@@ -17,27 +14,11 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaProject/ReturnProductsHandler.class" afterPath="$PROJECT_DIR$/out/production/JavaProject/ReturnProductsHandler.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaProject/StockHandler.class" afterPath="$PROJECT_DIR$/out/production/JavaProject/StockHandler.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaProject/SupplyHandler.class" afterPath="$PROJECT_DIR$/out/production/JavaProject/SupplyHandler.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaProject/resources/employee.txt" afterPath="$PROJECT_DIR$/out/production/JavaProject/resources/employee.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaProject/resources/receipts.txt" afterPath="$PROJECT_DIR$/out/production/JavaProject/resources/receipts.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaProject/resources/stock.txt" afterPath="$PROJECT_DIR$/out/production/JavaProject/resources/stock.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/JavaProject/resources/supplier.txt" afterPath="$PROJECT_DIR$/out/production/JavaProject/resources/supplier.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Menu.java" afterPath="$PROJECT_DIR$/src/Menu.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Product.java" afterPath="$PROJECT_DIR$/src/Product.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ProductSold.java" afterPath="$PROJECT_DIR$/src/ProductSold.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ProductStock.java" afterPath="$PROJECT_DIR$/src/ProductStock.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ProductSupply.java" afterPath="$PROJECT_DIR$/src/ProductSupply.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ReturnProductsHandler.java" afterPath="$PROJECT_DIR$/src/ReturnProductsHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/StockHandler.java" afterPath="$PROJECT_DIR$/src/StockHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/StoreManagerSystem.java" afterPath="$PROJECT_DIR$/src/StoreManagerSystem.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/SupplyHandler.java" afterPath="$PROJECT_DIR$/src/SupplyHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/resources/employee.txt" afterPath="$PROJECT_DIR$/src/resources/employee.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/resources/receipts.txt" afterPath="$PROJECT_DIR$/src/resources/receipts.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/resources/stock.txt" afterPath="$PROJECT_DIR$/src/resources/stock.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/resources/supplier.txt" afterPath="$PROJECT_DIR$/src/resources/supplier.txt" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/Receipt.java" afterPath="$PROJECT_DIR$/src/ReceiptStaff.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ReceiptHandler.java" afterPath="$PROJECT_DIR$/src/ReceiptStaffHandler.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -518,7 +499,7 @@
       <workItem from="1510188323361" duration="637000" />
       <workItem from="1510189044046" duration="43000" />
       <workItem from="1510233052723" duration="5000" />
-      <workItem from="1510380911138" duration="38000" />
+      <workItem from="1510380911138" duration="152000" />
     </task>
     <task id="LOCAL-00001" summary="update">
       <created>1509539917720</created>
@@ -555,11 +536,18 @@
       <option name="project" value="LOCAL" />
       <updated>1510119660255</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Add methods and optimize menu.">
+      <created>1510381058348</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1510381058348</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38795000" />
+    <option name="totallyTimeSpent" value="38909000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -605,7 +593,8 @@
     <MESSAGE value="fix some error message" />
     <MESSAGE value="Complete!" />
     <MESSAGE value="Complete 2!" />
-    <option name="LAST_COMMIT_MESSAGE" value="Complete 2!" />
+    <MESSAGE value="Add methods and optimize menu." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add methods and optimize menu." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
