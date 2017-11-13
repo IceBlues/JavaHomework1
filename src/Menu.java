@@ -3,6 +3,11 @@ import java.util.Scanner;
 public class Menu {
     private static Scanner in = new Scanner(System.in);
 
+    /**
+     * This method should be invoked at the beginning of program.
+     * The method will be invoked when all resources-files was loaded. It will judge user statement(login or not)
+     * and invoke suitable method to show different main-menu to user.
+     */
     public static void menuMain() {
         boolean isContinue = true;
         while (isContinue) {
@@ -15,6 +20,12 @@ public class Menu {
         }
     }
 
+    /**
+     * The method will be invoked by menuMain method, when the user not login.
+     *
+     * @return A boolean variable that control the main-menu show continue or not if it's true
+     * the menuMain will invoke suitable main-menu again or it'll be end.
+     */
     private static boolean menuNotLogin() {
         String selectErrorMessage = "Select Error";
 
@@ -37,6 +48,9 @@ public class Menu {
         return isContinue;
     }
 
+    /**
+     *  The method will be invoked by menuMain method, when the user not login.
+     */
     private static void menuIsLogin() {
         String selectErrorMessage = "Select Error";
 
@@ -85,6 +99,9 @@ public class Menu {
         }
     }
 
+    /**
+     *
+     */
     private static void menuLogin() {
         StoreSystemAccount.login();
     }
