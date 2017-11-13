@@ -70,6 +70,7 @@ public class ReceiptStaff {
         Scanner in = new Scanner(System.in);
         String stockNumberNotEnoughMessage = "The StockNumber is not enough";
         String purchaseNotFoundMessage = "The purchase not found";
+        String numberErrorMessage = "Please input correct number";
 
         System.out.println("Please input product-ID :");
         aProductID = in.nextLine().toUpperCase();
@@ -89,6 +90,9 @@ public class ReceiptStaff {
                         receiptProductList.put(aProductID, new ProductSold(aProduct.getName(), aProductID, number, aProduct.getPrice()));
                         System.out.println("Product add succeed");
                     }
+                    else if(number <= 0){
+                        System.out.println(numberErrorMessage);
+                    }
                     else {
                         System.out.println(stockNumberNotEnoughMessage);
                     }
@@ -100,9 +104,14 @@ public class ReceiptStaff {
                         S.setNumber(number);
                         System.out.println("Product number change succeed");
                     }
-                    else if(number == 0){
-                        receiptProductList.remove(aProductID);
-                        System.out.println("You have remove this product");
+                    else if(number <= 0){
+                        if(number == 0){
+                            receiptProductList.remove(aProductID);
+                            System.out.println("You have remove this product");
+                        }
+                        else {
+                            System.out.println(numberErrorMessage);
+                        }
                     }
                     else {
                         System.out.println(stockNumberNotEnoughMessage);

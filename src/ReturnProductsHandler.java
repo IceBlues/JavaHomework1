@@ -45,13 +45,13 @@ public class ReturnProductsHandler {
                         System.out.println(productNotSoldMessage);
                     }
 
-                    System.out.println("C)ontinue  S)top");
+                    System.out.println("C)ontinue  E)nd");
                     continueSelect = in.nextLine().toUpperCase();
                     switch (continueSelect) {
                         case "C":
                             isContinue = true;
                             break;
-                        case "S":
+                        case "E":
                             isContinue = false;
                             break;
                         default:
@@ -129,13 +129,13 @@ public class ReturnProductsHandler {
 
                 boolean isSelect = false;
                 while (!isSelect) {
-                    System.out.println("C)ontinue  S)top");
+                    System.out.println("C)ontinue  E)nd");
                     userInput = in.nextLine().toUpperCase();
                     if (userInput.equals("C")) {
                         isContinue = true;
                         isSelect = true;
                     }
-                    else if (userInput.equals("S")) {
+                    else if (userInput.equals("E")) {
                         isContinue = false;
                         isSelect = true;
                     }

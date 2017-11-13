@@ -9,6 +9,7 @@ public class ReceiptManager {
         String selectErrorMessage = "Error Select";
         String productNotFoundError = "The product not found";
         String productNotEnoughError = "The product not enough";
+        String numberErrorMessage = "Please input correct number";
         Scanner in = new Scanner(System.in);
         String productID = "";
 
@@ -38,6 +39,9 @@ public class ReceiptManager {
                         receiptProductList.put(productID, purchaseProduct);
                         System.out.println("Product add succeed");
                     }
+                    else if(buyNumber <= 0){
+                        System.out.println(numberErrorMessage);
+                    }
                     else {
                         System.out.println(productNotEnoughError);
                     }
@@ -57,9 +61,14 @@ public class ReceiptManager {
                         receiptProductList.get(productID).setNumber(fixNumber);
                         System.out.println("The product change succeed");
                     }
-                    else if(fixNumber == 0){
-                        receiptProductList.remove(productID);
-                        System.out.println("You have remove this product");
+                    else if(fixNumber <= 0){
+                        if(fixNumber == 0){
+                            receiptProductList.remove(productID);
+                            System.out.println("You have remove this product");
+                        }
+                        else {
+                            System.out.println(numberErrorMessage);
+                        }
                     }
                     else{
                         System.out.println(productNotEnoughError);
