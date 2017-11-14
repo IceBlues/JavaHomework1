@@ -71,7 +71,7 @@ public class Menu {
                     StoreSystemAccount.logout();
                     break;
                 default:
-                    System.out.print(selectErrorMessage);
+                    System.out.println(selectErrorMessage);
                     break;
             }
         }
@@ -94,7 +94,7 @@ public class Menu {
                     StoreSystemAccount.logout();
                     break;
                 default:
-                    System.out.print(selectErrorMessage);
+                    System.out.println(selectErrorMessage);
                     break;
             }
         }
@@ -148,7 +148,7 @@ public class Menu {
                     isContinue = false;
                     break;
                 default:
-                    System.out.print(selectErrorMessage);
+                    System.out.println(selectErrorMessage);
                     break;
             }
         }

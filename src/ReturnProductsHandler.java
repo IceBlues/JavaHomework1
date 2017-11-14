@@ -10,7 +10,7 @@ public class ReturnProductsHandler {
         Scanner in = new Scanner(System.in);
         String numberErrorMessage = "Please input correct number";
         String productNotSoldMessage = "The product was not sold in this receipt";
-        String selectErrorMessage = "Select Error. Default choose Continue";
+        String selectErrorMessage = "Select Error. Please try again";
         String receiptNotFound = "Receipt not found";
 
         String receiptID = in.nextLine();
@@ -49,19 +49,23 @@ public class ReturnProductsHandler {
                         System.out.println(productNotSoldMessage);
                     }
 
-                    System.out.println("C)ontinue  E)nd");
-                    continueSelect = in.nextLine().toUpperCase();
-                    switch (continueSelect) {
-                        case "C":
-                            isContinue = true;
-                            break;
-                        case "E":
-                            isContinue = false;
-                            break;
-                        default:
-                            System.out.println(selectErrorMessage);
-                            isContinue = true;
-                            break;
+                    boolean isNotSelect = true;
+                    while(isNotSelect) {
+                        System.out.println("C)ontinue  E)nd");
+                        continueSelect = in.nextLine().toUpperCase();
+                        switch (continueSelect) {
+                            case "C":
+                                isContinue = true;
+                                isNotSelect = false;
+                                break;
+                            case "E":
+                                isContinue = false;
+                                isNotSelect = false;
+                                break;
+                            default:
+                                System.out.println(selectErrorMessage);
+                                break;
+                        }
                     }
                 }
 

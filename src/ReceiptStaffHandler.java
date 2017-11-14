@@ -121,7 +121,7 @@ public class ReceiptStaffHandler {
                                     inSoldList.setNumber(inSoldList.getNumber() + P.getNumber());
                                 }
                                 else{
-                                    soldList.put(P.getId(), P);
+                                    soldList.put(P.getId(), new ProductSold(P.getId(), P.getNumber()));
                                 }
                             }
                         }

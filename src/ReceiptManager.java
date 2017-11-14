@@ -9,7 +9,7 @@ public class ReceiptManager {
      * This method will start a shopping process that buy some products from supplier to store stock.
      */
     public void listReceipt(){
-        String selectErrorMessage = "Error Select";
+        String selectErrorMessage = "Please input correct selection";
         String productNotFoundError = "The product not found";
         String productNotEnoughError = "The product not enough";
         String numberErrorMessage = "Please input correct number";
@@ -77,16 +77,15 @@ public class ReceiptManager {
                         System.out.println(productNotEnoughError);
                     }
                 }
-
-                System.out.println("P)urchase  C)omplete");
             }
             else {
                 System.out.println(productNotFoundError);
             }
 
-            String select = in.nextLine().toUpperCase();
+            System.out.println("P)urchase  C)omplete");
             boolean isNotCorrectChoose = true;
             while(isNotCorrectChoose) {
+                String select = in.nextLine().toUpperCase();
                 switch (select) {
                     case "P":
                         isContinue = true;
