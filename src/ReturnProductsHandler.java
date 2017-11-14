@@ -1,7 +1,11 @@
 import java.util.*;
 
 public class ReturnProductsHandler {
-    public static void EmployeeProductsReturn() {
+
+    /**
+     * This method will start a return process that return sold products from customer to stock.
+     */
+    public static void StaffProductsReturn() {
         System.out.println("Please input receiptStaff ID(year-months-day hour:minutes:second number) :");
         Scanner in = new Scanner(System.in);
         String numberErrorMessage = "Please input correct number";
@@ -13,7 +17,7 @@ public class ReturnProductsHandler {
         ReceiptStaff receiptStaff = ReceiptStaffHandler.getReceiptByID(receiptID);
 
         if (receiptStaff != null) {
-            if (compareDateDays(new Date(), receiptStaff.getFullDate()) <= 30) {
+            if (compareDateDays(receiptStaff.getFullDate()) <= 30) {
                 boolean isContinue = true;
                 String continueSelect = "";
                 while (isContinue) {
@@ -74,6 +78,9 @@ public class ReturnProductsHandler {
         }
     }
 
+    /**
+     * This method will start a return process that return stock products from stock to supplier.
+     */
     public static void ManagerProductsReturn() {
         boolean isContinue = true;
         System.out.println("Welcome manager, Do you really want to return products to supplier?(Y/N)");
@@ -111,7 +118,7 @@ public class ReturnProductsHandler {
                     try {
                         returnNumber = Integer.parseInt(in.nextLine());
                         if (returnNumber > 0 && returnNumber <= aProduct.getNumber()) {
-                            ProductSupply returnProduct = new ProductSupply(productId, aProduct.getName(), returnNumber);
+                            ProductStock returnProduct = new ProductStock(productId, aProduct.getName(), returnNumber);
                             StockHandler.returnProduct(returnProduct);
                             SupplyHandler.addSupplyFromReturnProduct(returnProduct);
                         }
@@ -150,7 +157,14 @@ public class ReturnProductsHandler {
         }
     }
 
-    public static long compareDateDays(Date nowDate, Date receiptDate) {
+    /*
+     *Compare the number of days interval between now day and receipt created day.
+     *
+     * @param receiptDate The receipt was constructed date
+     * @return The days between now day and receipt constructed day
+     */
+    private static long compareDateDays(Date receiptDate) {
+        Date nowDate = new Date();
         long result = 1;
 
         result += (long) ((nowDate.getTime() - receiptDate.getTime()) / (1000 * 60 * 60 * 24) + 0.5);

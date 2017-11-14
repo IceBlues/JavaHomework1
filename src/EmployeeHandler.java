@@ -8,7 +8,7 @@ public class EmployeeHandler {
      * This method should be invoked at the beginning of program.
      * All of employee-message in employee-file should be imported into shopPersonList.
      *
-     * @param employeeFileName The file contains employee-message in resources folder
+     * @param employeeFileName The file name contains employee-message in resources folder
      * @throws IOException Not found employee-file
      */
     public static void initialize(String employeeFileName)throws IOException{
@@ -18,8 +18,9 @@ public class EmployeeHandler {
         String filesFormatErrorMessage = "Employee-files format Error";
 
         while(in.hasNext()){
-            String temp [] = in.nextLine().toUpperCase().split(",");
+            String temp [] = in.nextLine().split(",");
             if(temp.length == 2){
+                temp[1] = temp[1].toUpperCase();
                 if(temp[1].startsWith("E") || temp[1].startsWith("M")){
                     if(temp[1].startsWith("M")){
                         shopPersonList.add(new EmployeeManager(temp[0], temp[1]));

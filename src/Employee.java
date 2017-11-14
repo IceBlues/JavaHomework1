@@ -7,7 +7,7 @@ public abstract class Employee {
      * The employee is not really be created, but its subclass as an Employee need this method.
      *
      * @param name the name of employee
-     * @param id the id of employee
+     * @param id the id of employee that was the unique ID of the Employee
      * */
     Employee(String name, String id){
         this.name = name;

@@ -1,3 +1,3 @@
 P001,T-shirt,1000,20.0
-P002,SortFish,1000,30.0
-P003,Adobe Tools,100,9.9
+P002,Football,1000,30.0
+P003,Gold Trophy,100,9.9

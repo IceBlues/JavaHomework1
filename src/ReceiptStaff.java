@@ -7,19 +7,25 @@ public class ReceiptStaff {
     private LinkedHashMap<String, ProductSold> receiptProductList = new LinkedHashMap<String, ProductSold>();
     private String receiptID;
 
+    /**
+     * Construct a default ReceiptStaff Object.
+     */
     ReceiptStaff() {
 
     }
 
+    /**
+     * Construct a ReceiptStaff Object with receiptID.
+     *
+     * @param receiptID The receiptID which is the unique ID of the receipt
+     */
     ReceiptStaff(String receiptID) {
         this.receiptID = receiptID;
     }
 
-    private ReceiptStaff(String receiptID, LinkedHashMap<String, ProductSold> receiptProductList) {
-        this.receiptProductList = receiptProductList;
-        this.receiptID = receiptID;
-    }
-
+    /**
+     * This method will start a shopping process that sold product from stock to customer.
+     */
     public void listReceipt() {
         boolean isContinuePurchase = true;
         Scanner in = new Scanner(System.in);
@@ -60,6 +66,12 @@ public class ReceiptStaff {
         }
     }
 
+    /**
+     * Add product to receipt with its ID and sold-number.
+     *
+     * @param id The productID which is the unique ID of the product
+     * @param number The product number that will be sold
+     */
     public void addProduct(String id, int number) {
         receiptProductList.put(id, new ProductSold(id, number));
     }
@@ -128,6 +140,7 @@ public class ReceiptStaff {
         }
     }
 
+    //Complete the shopping process and if the transaction successful, update product-message to resources-files.
     private void complete() {
         double total = 0;
         String userInput = "";
@@ -175,7 +188,7 @@ public class ReceiptStaff {
 
         if (userInput.equals("C")) {
             //Add this receipt to receipt-list
-            ReceiptStaffHandler.addReceipt(new ReceiptStaff(receiptID, receiptProductList));
+            ReceiptStaffHandler.addReceipt(this);
             //update stock-list
             for (Entry<String, ProductSold> entry : receiptProductList.entrySet()) {
                 ProductSold S = entry.getValue();
@@ -188,18 +201,39 @@ public class ReceiptStaff {
         }
     }
 
+    /**
+     * Get the sold product from Receipt by its ID.
+     *
+     * @param productId The product ID that was the unique ID of the product
+     * @return A productSold Object
+     */
     public ProductSold getProductByID(String productId) {
         return receiptProductList.get(productId);
     }
 
+    /**
+     * Get the ReceiptID
+     *
+     * @return This receipt's ID
+     */
     String getReceiptID() {
         return receiptID;
     }
 
+    /**
+     * Get all sold products in this receipt.
+     *
+     * @return The product list in this receipt
+     */
     public LinkedHashMap<String, ProductSold> getReceiptProductList() {
         return receiptProductList;
     }
 
+    /**
+     * Get the year, month and day the receipt was printed.
+     *
+     * @return A Date Object which contains the date this receipt was printed
+     */
     public Date getDate() {
         Date result = null;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -215,6 +249,11 @@ public class ReceiptStaff {
         return result;
     }
 
+    /**
+     * Get the year, month, day, hour, minutes and second the receipt was printed.
+     *
+     * @return A Date Object which contains the date this receipt was printed
+     */
     public Date getFullDate() {
         Date result = null;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -6,7 +6,8 @@ public class Menu {
     /**
      * This method should be invoked at the beginning of program.
      * The method will be invoked when all resources-files was loaded. It will judge user statement(login or not)
-     * and invoke suitable method to show different main-menu to user.
+     * and invoke suitable method to show different main-menu which make true the user can do command only they
+     * have enough authority to user.
      */
     public static void menuMain() {
         boolean isContinue = true;
@@ -20,7 +21,7 @@ public class Menu {
         }
     }
 
-    /**
+    /*
      * The method will be invoked by menuMain method, when the user not login.
      *
      * @return A boolean variable that control the main-menu show continue or not if it's true
@@ -48,8 +49,8 @@ public class Menu {
         return isContinue;
     }
 
-    /**
-     *  The method will be invoked by menuMain method, when the user not login.
+    /*
+     *  The method will be invoked by menuMain method, when the user has been login.
      */
     private static void menuIsLogin() {
         String selectErrorMessage = "Select Error";
@@ -99,13 +100,18 @@ public class Menu {
         }
     }
 
-    /**
-     *
+    /*
+     *The method will be invoked when user want to login. It'll invoke suitable method
+     * in StoreSystemAccount class.
      */
     private static void menuLogin() {
         StoreSystemAccount.login();
     }
 
+    /*
+     * This method will be invoked when user want to purchase. For different employee(staff or manager)
+     * It'll create suitable receipt(Staff or Manager) and perform purchase operation.
+     */
     private static void menuPurchase() {
         if(StoreSystemAccount.getAuthority().equals("E")) {
             new ReceiptStaff().listReceipt();
@@ -115,6 +121,10 @@ public class Menu {
         }
     }
 
+    /*
+     * The method will be invoked when user want to check stock, product or products sold for
+     * a certain period of time.
+     */
     private static void menuCheck() {
         String selectErrorMessage = "Select Error";
         String checkSelect;
@@ -144,9 +154,13 @@ public class Menu {
         }
     }
 
+    /*
+     * The method will be invoked when user want to return products, for staff and manager they'll be invoked
+     * suitable return method.
+     */
     private static void menuReturn() {
         if (StoreSystemAccount.getAuthority().equals("E")) {
-            ReturnProductsHandler.EmployeeProductsReturn();
+            ReturnProductsHandler.StaffProductsReturn();
         }
         else if (StoreSystemAccount.getAuthority().equals("M")) {
             ReturnProductsHandler.ManagerProductsReturn();

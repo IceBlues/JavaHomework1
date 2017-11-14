@@ -6,6 +6,12 @@ public class StockHandler {
     private static LinkedHashMap<String, ProductStock> productList = new LinkedHashMap<String, ProductStock>();
     private static File stocks;
 
+    /**
+     * This method should be invoked at the beginning of program.
+     * All of stockProduct-message in stock-file should be imported into productList.
+     *
+     * @param stockFile The file name contains stockProduct-message in resources folder
+     */
     public static void initialize(String stockFile) {
         stocks = new File("resources/" + stockFile + ".txt");
         try {
@@ -31,16 +37,22 @@ public class StockHandler {
         }
     }
 
-    public static void returnProduct(ProductSupply returnProduct){
+    /**
+     * Get a product should be returned to supplier and minus it in stock.
+     *
+     * @param returnProduct A product need to be return.
+     */
+    public static void returnProduct(ProductStock returnProduct){
         ProductStock product = productList.get(returnProduct.getId());
 
         product.setNumber(product.getNumber() - returnProduct.getNumber());
     }
 
-    public static ProductStock getProductByID(String id) {
-        return productList.get(id);
-    }
-
+    /**
+     * Get a product should be sold to customer and minus it in stock.
+     *
+     * @param product A product should be sold
+     */
     public static void freshStockWithSoldProduct(ProductSold product) {
         ProductStock P = productList.get(product.getId());
         if (P != null) {
@@ -48,17 +60,38 @@ public class StockHandler {
         }
     }
 
-    public static void addStockFromSupply(ProductSupply P){
-        ProductStock product = productList.get(P.getId());
+    /**
+     * Get a product in stock productList by its ID.
+     *
+     * @param id The productID that is the unique ID of the product
+     * @return A product in stock
+     */
+    public static ProductStock getProductByID(String id) {
+        return productList.get(id);
+    }
 
-        if(product != null){
-            product.setNumber(product.getNumber() + P.getNumber());
+    /**
+     *Get a product purchase from supplier and add it to stock.
+     *
+     * @param product The product purchase from supplier
+     */
+    public static void addStockFromSupply(ProductSupply product){
+        ProductStock productStock = productList.get(product.getId());
+
+        if(productStock != null){
+            productStock.setNumber(productStock.getNumber() + product.getNumber());
         }
         else{
-            productList.put(P.getId(), new ProductStock(P.getId(), P.getName(), P.getNumber(), P.getPrice()));
+            productList.put(product.getId(), new ProductStock(product.getId(), product.getName(), product.getNumber(), product.getPrice()));
         }
     }
 
+    /**
+     * Add product that was returned by customer.
+     *
+     * @param productID The product ID that is the unique number of product
+     * @param returnNumber The product number that need return
+     */
     public static void addStockByReturnProduct(String productID, int returnNumber) {
         ProductStock P = productList.get(productID);
         if (P != null) {
@@ -67,6 +100,9 @@ public class StockHandler {
     }
 
 
+    /**
+     * Update information from productList to product-file in resources folder.
+     */
     public static void freshStockFile() {
         try {
             PrintWriter out = new PrintWriter(stocks);
@@ -85,6 +121,9 @@ public class StockHandler {
         }
     }
 
+    /**
+     * Get and print all of the product ID in stock.
+     */
     public static void checkStock() {
         StringBuilder result = new StringBuilder();
 
@@ -98,7 +137,9 @@ public class StockHandler {
         System.out.println(result.toString());
     }
 
-
+    /**
+     * This method allow user input a product ID and print its message if it's in stock.
+     */
     public static void checkStockProduct() {
         String productNotFoundMessage = "Product was not found in stock";
         System.out.println("Please input productID: ");

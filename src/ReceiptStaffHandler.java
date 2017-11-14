@@ -7,6 +7,13 @@ public class ReceiptStaffHandler {
     private static ArrayList<ReceiptStaff> receiptStaffList = new ArrayList<ReceiptStaff>();
     private static File receipts;
     private static int serialNumber = 0;
+
+    /**
+     * This method should be invoked at the beginning of program.
+     * All of staff receipt-message in receipt-file should be imported into receiptStaffList.
+     *
+     * @param receiptFile The file contains staff receipt-message in resources folder
+     */
     public static void initialize(String receiptFile) {
         try {
             receipts = new File("resources/" + receiptFile + ".txt");
@@ -49,11 +56,18 @@ public class ReceiptStaffHandler {
         receiptStaffList.add(receiptStaff);
     }
 
+    /**
+     * Add a staff receipt to receiptStaffList.
+     *
+     * @param receiptStaff A receipt will be added to receiptStaffList
+     */
     public static void addReceipt(ReceiptStaff receiptStaff) {
         receiptStaffList.add(receiptStaff);
     }
 
-     /*Simple fresh receipt-file*/
+    /**
+     * Update information from receiptStaffList to receipt-file in resources folder.
+     */
     public static void freshReceiptFile(){
         try {
             PrintWriter printWriter = new PrintWriter(receipts);
@@ -74,6 +88,9 @@ public class ReceiptStaffHandler {
         }
     }
 
+    /**
+     * This method allow user input a range of time(year-month-day) and check the sold products in this range
+     */
     public static void checkRangeProducts(){
         LinkedHashMap<String, ProductSold> soldList = new LinkedHashMap<String, ProductSold>();
         Scanner in = new Scanner(System.in);
@@ -135,6 +152,12 @@ public class ReceiptStaffHandler {
 
     }
 
+    /**
+     * Get a staff receipt in receiptStaffList by its ID
+     *
+     * @param receiptID The ID of receipt that was the unique ID of the receipt
+     * @return A ReceiptStaff Object
+     */
     public static ReceiptStaff getReceiptByID(String receiptID){
         ReceiptStaff result = null;
         for(ReceiptStaff R : receiptStaffList){
@@ -147,22 +170,36 @@ public class ReceiptStaffHandler {
         return result;
     }
 
+    /**
+     * Get the local tax(China or Ireland)
+     *
+     * @return The local tax
+     */
     public static double getLocalTax(){
         double taxReturn = 0;
         Locale nowLocale = Locale.getDefault();
-        if(nowLocale.getCountry().equals("IE")){
+        if(nowLocale.getCountry().equals("en_IE")){
             taxReturn = 0.1;
         }
-        else if(nowLocale.getCountry().equals("CN")){
+        else if(nowLocale.getCountry().equals("zh_CN")){
             taxReturn = 0;
         }
         return taxReturn;
     }
 
+    /**
+     * The method can get receipt's serial number, when a new staff receipt was constructed, it need it.
+     *
+     * @return The serialNumber now
+     */
     public static int getSerialNumber() {
         return serialNumber;
     }
 
+    /**
+     * The method should be invoked to get next serial number. When a new receipt is added to receiptList,
+     * also need this method to update serial number.
+     */
     public static void nextSerialNumber() {
         serialNumber ++;
     }

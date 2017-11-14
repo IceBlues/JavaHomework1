@@ -6,6 +6,11 @@ public class StoreSystemAccount {
     private static String name;
     private static String authority;
 
+    /**
+     * The method allow user login store system with his/her workID.
+     * The workID also contains employee's authority, start with 'E' is normal staff and
+     * 'M' is manager.
+     */
     public static void login(){
         boolean isContinueLogin = true;
 
@@ -51,6 +56,9 @@ public class StoreSystemAccount {
 
     }
 
+    /**
+     * Logout account now.
+     */
     public static void logout(){
         if(isLogin){
             isLogin = false;
@@ -62,10 +70,20 @@ public class StoreSystemAccount {
 
     }
 
+    /**
+     * The method can judge store system is login or not.
+     *
+     * @return True if someone has been login, or False
+     */
     public static boolean isLogin() {
         return isLogin;
     }
 
+    /**
+     * Get the authority from account which login now.
+     *
+     * @return A string represent account's authority
+     */
     public static String getAuthority() {
         return authority;
     }

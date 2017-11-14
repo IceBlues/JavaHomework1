@@ -5,6 +5,9 @@ import java.util.Scanner;
 public class ReceiptManager {
     private LinkedHashMap<String, ProductSupply> receiptProductList = new LinkedHashMap<String, ProductSupply>();
 
+    /**
+     * This method will start a shopping process that buy some products from supplier to store stock.
+     */
     public void listReceipt(){
         String selectErrorMessage = "Error Select";
         String productNotFoundError = "The product not found";
@@ -109,6 +112,7 @@ public class ReceiptManager {
         }
     }
 
+    //Complete the shopping process and if the transaction successful, update product-message to resources-files.
     private void complete(){
         Scanner in = new Scanner(System.in);
         String selectErrorMessage = "Error Select";
