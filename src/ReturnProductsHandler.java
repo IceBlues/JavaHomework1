@@ -21,6 +21,12 @@ public class ReturnProductsHandler {
                 boolean isContinue = true;
                 String continueSelect = "";
                 while (isContinue) {
+
+                    for(Map.Entry<String, ProductSold> entry : receiptStaff.getReceiptProductList().entrySet()){
+                        ProductSold P = entry.getValue();
+                        System.out.println("ID : " + P.getId() + "\nNumber : " + P.getNumber() + "\n");
+                    }
+
                     System.out.println("Please input product-ID : ");
                     String productId = in.nextLine().toUpperCase();
                     ProductSold soldProduct = receiptStaff.getProductByID(productId);
