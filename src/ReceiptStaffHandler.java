@@ -178,10 +178,10 @@ public class ReceiptStaffHandler {
     public static double getLocalTax(){
         double taxReturn = 0;
         Locale nowLocale = Locale.getDefault();
-        if(nowLocale.getCountry().equals("en_IE")){
+        if(nowLocale.getCountry().equals("IE")){
             taxReturn = 0.1;
         }
-        else if(nowLocale.getCountry().equals("zh_CN")){
+        else if(nowLocale.getCountry().equals("CN")){
             taxReturn = 0;
         }
         return taxReturn;
