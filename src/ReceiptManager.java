@@ -26,6 +26,7 @@ public class ReceiptManager {
                 productMessage += "Name: " + aProduct.getName() + "\nNumber: " + aProduct.getNumber() + "\nPrice: " + aProduct.getPrice() + "\n";
                 System.out.println(productMessage);
 
+                //If first buy this product.
                 if (receiptProductList.get(productID) == null) {
                     int buyNumber = 0;
                     System.out.println("How many you want to buy?");
@@ -82,9 +83,9 @@ public class ReceiptManager {
                 System.out.println(productNotFoundError);
             }
 
-            System.out.println("P)urchase  C)omplete");
             boolean isNotCorrectChoose = true;
             while(isNotCorrectChoose) {
+                System.out.println("P)urchase  C)omplete");
                 String select = in.nextLine().toUpperCase();
                 switch (select) {
                     case "P":

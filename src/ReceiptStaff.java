@@ -35,10 +35,9 @@ public class ReceiptStaff {
         while (isContinuePurchase) {
             addProduct();
 
-            System.out.println("P)urchase  C)omplete Transaction");
-
             boolean isNotCorrectChoose = true;
             while (isNotCorrectChoose) {
+                System.out.println("P)urchase  C)omplete Transaction");
                 userInput = in.nextLine().toUpperCase();
                 switch (userInput) {
                     case "P": {
@@ -95,6 +94,7 @@ public class ReceiptStaff {
             try {
                 int number = 0;
                 ProductSold S = receiptProductList.get(aProductID);
+                //If first buy it
                 if (S == null) {
                     System.out.println("How many you want to buy?");
                     number = Integer.parseInt(in.nextLine());
