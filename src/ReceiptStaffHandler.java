@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 public class ReceiptStaffHandler {
     private static ArrayList<ReceiptStaff> receiptStaffList = new ArrayList<ReceiptStaff>();
     private static File receipts;
-    private static int serialNumber = 0;
+    private static int serialNumber = 0; // The number will start at 0 and add by new receipt everyday.
 
     /**
      * This method should be invoked at the beginning of program.
